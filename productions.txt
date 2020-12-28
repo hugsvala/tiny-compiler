@@ -1,0 +1,49 @@
+program -> def $
+def -> "int" "id" "(" param ")" block
+param -> "int" "id" params
+param -> e
+params -> "," "int" "id" params
+params -> e
+stmt -> decl
+stmt -> block
+stmt -> assignment
+stmt -> functionCall
+stmt -> ifStmt
+stmt -> returnStmt
+stmts -> stmt stmts
+stmts -> e
+decl -> "int" "id" optAssign ";"
+block -> "{" stmts "}"
+optAssign -> "=" exp
+optAssign -> e
+assignment -> "id" "=" exp ";"
+functionCall -> "id" "(" arg ")" ";"
+arg -> exp args
+arg -> e
+args -> "," exp args
+args -> e
+ifStmt -> "if" "(" condition ")" stmt optElse
+condition -> exp optComparison
+optComparison -> "<" exp
+optComparison -> ">" exp
+optComparison -> "==" exp
+optComparison -> "!=" exp
+optComparison -> e
+optElse -> "else" stmt
+optElse -> e
+returnStmt -> "return" exp ";"
+exp -> term exp2
+exp2 -> "+" term exp2
+exp2 -> "-" term exp2
+exp2 -> e
+term -> factor exp3
+exp3 -> "*" factor exp3
+exp3 -> "/" factor exp3
+exp3 -> e
+factor -> literal
+factor -> "id" optFuncCall
+optFuncCall -> "(" arg ")"
+factor -> "(" exp ")"
+
+TODO:
+for, while
