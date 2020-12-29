@@ -29,10 +29,15 @@ class IRInstr:
         self.src1 = src1
         self.src2 = src2
         self.dest = dest
+        self.func_call = None
+        self.func_name = None
+        self.func_args  = None
 
     # Pretty printing of the IR instruction.
     def print(self):
-        instr_str = self.op + " "
+        padding = ' '
+        x = padding.ljust(12 - len(self.op))
+        instr_str = self.op + x
         if self.src1:
             instr_str += self.src1 + ", "
         if self.src2:
@@ -40,6 +45,8 @@ class IRInstr:
         if self.dest:
             instr_str += self.dest
         print(instr_str)
+        if self.op == "end":
+            print("")
 
 # The functions used to translate code into an IR are similar to those that
 # were used in type checking.
@@ -48,10 +55,6 @@ def translate_ast(prog_ast):
         program.append(IRInstr("begin", None, None, func.name))
         translate_block(func.block)
         program.append(IRInstr("end", None, None, func.name))
-
-def translate_block(block):
-    for stmt in block.stmts:
-        translate_stmt(stmt)
 
 def translate_stmt(stmt):
     if stmt.node_type == "decl_node":
@@ -63,13 +66,29 @@ def translate_stmt(stmt):
     elif stmt.node_type == "assignment_node":
         t = translate_exp(stmt.exp)
         program.append(IRInstr("mov", t, None, stmt.name))
-    #elif stmt.node_type == "func_call_node":
-    #    type_check_func_call(stmt)
+    elif stmt.node_type == "func_call_node":
+        program.append(translate_func_call(stmt))
     elif stmt.node_type == "if_node":
         translate_if_stmt(stmt)
     elif stmt.node_type == "return_node":
         translate_return_stmt(stmt)
 
+def translate_block(block):
+    for stmt in block.stmts:
+        translate_stmt(stmt)
+
+# Func call IR instructions look like: CALL f(a,b,c,...)
+def translate_func_call(stmt):
+    func_call = stmt.name + "("
+    for arg in stmt.args:
+        t = translate_exp(arg)
+        func_call += t + ", "
+    func_call = func_call[:-2]
+    func_call += ")"
+    return IRInstr("CALL", None, None, func_call)
+
+# The instructions directly after the conditional branch is an unconditional
+# branch to the end of the if-block.
 def translate_if_stmt(stmt):
     begin_if = translate_condition(stmt.condition)
     end_if = new_label()
@@ -119,7 +138,6 @@ def translate_return_stmt(stmt):
     t = translate_exp(stmt.exp)
     program.append(IRInstr("ret", None, None, t))
 
-
 def translate_exp(exp):
     if exp.is_exp:
         t = new_temp()
@@ -133,8 +151,10 @@ def translate_exp(exp):
     elif exp.val:
         exp_str = exp.val
         return exp_str
-    #elif exp.func_call:
-
+    elif exp.func_call:
+        f = translate_func_call(exp.func_call)
+        exp_str = "CALL_" + f.dest
+        return exp_str
 
 def print_program():
     for instr in program:

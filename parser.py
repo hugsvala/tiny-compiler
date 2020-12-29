@@ -573,7 +573,7 @@ def get_factor(node):
     if factor.succs and exp3.name:
         if factor.succs[0].sym == "arg":
             op1 = ast.ExpNode()
-            op1.is_func_call = True
+            #op1.is_func_call = True
             op1.func_call = build_func_call_node(factor)
             exp_node.op1 = op1
             exp_node.add_succ(op1)
