@@ -2,7 +2,7 @@
 # Type checker for a small subset of C, in which the only existing type is #
 # int and so it might seem like an unnecessary module but it also does     #
 # other cool stuff, like making sure that variables are declared before    #
-# they are used.                                                           #
+# they are used, correct number of function call arguments and so on.      #                                                    
 ###======================================================================###
 from collections import deque
 from dataclasses import dataclass
