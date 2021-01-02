@@ -33,8 +33,8 @@ class IRInstr:
         self.func_name = None
         self.func_args  = None
 
-    # Pretty printing of the IR instruction.
-    def print(self):
+    # Returns a string for pretty printing of the IR instruction.
+    def instr_str(self):
         padding = ' '
         x = padding.ljust(12 - len(self.op))
         instr_str = self.op + x
@@ -44,9 +44,7 @@ class IRInstr:
             instr_str += self.src2 + ", "
         if self.dest:
             instr_str += self.dest
-        print(instr_str)
-        if self.op == "end":
-            print("")
+        return instr_str
 
 # The functions used to translate code into an IR are similar to those that
 # were used in type checking.
@@ -55,6 +53,7 @@ def translate_ast(prog_ast):
         program.append(IRInstr("begin", None, None, func.name))
         translate_block(func.block)
         program.append(IRInstr("end", None, None, func.name))
+    return program
 
 def translate_stmt(stmt):
     if stmt.node_type == "decl_node":
@@ -158,4 +157,6 @@ def translate_exp(exp):
 
 def print_program():
     for instr in program:
-        instr.print()
+        print(instr.instr_str())
+        if instr.op == "end":
+            print("")
