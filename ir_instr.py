@@ -43,7 +43,7 @@ class IRInstr:
             instr_str += self.dest.instr_str()
         return instr_str
 
-# Name is used mostly for printing purpose. For variables the interesting thing
+# Name is used only for printing purpose. For variables the interesting thing
 # is the local index.
 class Operand:
     def __init__(self):
