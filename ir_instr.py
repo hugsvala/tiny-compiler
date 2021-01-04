@@ -67,6 +67,7 @@ def translate_ast(prog_ast):
     for func in prog_ast.funcs:
         op = Operand()
         op.name = func.name
+        op.func_name = func.name
         op.nbr_locals = func.nbr_locals
         program.append(IRInstr("begin", None, None, op))
         translate_block(func.block)
@@ -160,7 +161,7 @@ def translate_condition(cond):
         elif cond.operator == "equals":
             cond_str = "beq"
         elif cond.operator == "not_equal":
-            cond_str = "bl"
+            cond_str = "bne"
         cond_instr = IRInstr(cond_str, op1, op2, label)
     else:
         op2 = Operand()
