@@ -659,7 +659,7 @@ prog_ast = build_ast(parse) # The program node of the ast.
 type_checker.type_check(prog_ast)
 #print("---------------------------------------------------")
 ir_code = ir_instr.translate_ast(prog_ast)
-ir_instr.print_program()
+#ir_instr.print_program()
 #print("---------------------------------------------------")
 codegen.code_gen(ir_code)
 codegen.print_asm_program()
