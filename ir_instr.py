@@ -52,6 +52,7 @@ class Operand:
         self.val = None
         self.func_name = None
         self.args = []
+        self.nbr_locals = 0 # This is used by code gen to allocated stack space.
 
     # Returns a string for pretty printing of the IR instruction.
     def instr_str(self):
@@ -66,6 +67,7 @@ def translate_ast(prog_ast):
     for func in prog_ast.funcs:
         op = Operand()
         op.name = func.name
+        op.nbr_locals = func.nbr_locals
         program.append(IRInstr("begin", None, None, op))
         translate_block(func.block)
         program.append(IRInstr("end", None, None, op))
