@@ -41,6 +41,7 @@ class FuncNode(ASTNode):
         self.name = None
         self.params = []
         self.block = None
+        self.nbr_locals = 0 # This is used by code gen to allocated stack space.
 
     def add_param(self, param):
         self.params.append(param)
@@ -87,6 +88,7 @@ class DeclNode(ASTNode):
         self.node_type = "decl_node"
         self.name = None
         self.exp = None
+        self.local_index = None # Used by code gen as: "-local_index*8(%rbp)".
 
     def print(self):
         print("Decl name: ", self.name)
@@ -105,6 +107,7 @@ class ExpNode(ASTNode):
         self.op2 = None
         self.operator = None
         self.func_call = None
+        self.local_index = None # Used by code gen as: "-local_index*8(%rbp)".
 
     def print(self):
         if self.is_exp:
