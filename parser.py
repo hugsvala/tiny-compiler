@@ -5,6 +5,7 @@
 from itertools import count
 from collections import deque
 import abstract_syntax_tree as ast
+import codegen
 import ir_instr
 import lexer
 import sys
@@ -659,5 +660,8 @@ print("---------------------------------------------------")
 #print("---------------------------------------------------")
 type_checker.type_check(prog_ast)
 #print("---------------------------------------------------")
-ir_instr.translate_ast(prog_ast)
+ir_code = ir_instr.translate_ast(prog_ast)
 ir_instr.print_program()
+#print("---------------------------------------------------")
+codegen.code_gen(ir_code)
+codegen.print_asm_program()
