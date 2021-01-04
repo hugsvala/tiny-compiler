@@ -128,6 +128,7 @@ class AssignmentNode(ASTNode):
         self.node_type = "assignment_node"
         self.name = None
         self.exp = None
+        self.local_index = None # Used by code gen as: "-local_index*8(%rbp)".
 
     def print(self):
         print("Assignment name: ", self.name)

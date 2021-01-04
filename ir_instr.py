@@ -80,6 +80,7 @@ def translate_stmt(stmt):
             t = translate_exp(stmt.exp)
             dest_op = Operand()
             dest_op.name = stmt.name
+            dest_op.local_index = stmt.local_index
             program.append(IRInstr("mov", t, None, dest_op))
     elif stmt.node_type == "block_node":
         translate_block(stmt)
@@ -87,6 +88,7 @@ def translate_stmt(stmt):
         t = translate_exp(stmt.exp)
         dest_op = Operand()
         dest_op.name = stmt.name
+        dest_op.local_index = stmt.local_index
         program.append(IRInstr("mov", t, None, dest_op))
     elif stmt.node_type == "func_call_node":
         program.append(translate_func_call(stmt))

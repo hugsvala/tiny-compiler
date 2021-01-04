@@ -645,9 +645,7 @@ def print_parse_tree(parse_tree):
 prog = Node("program")
 tok, parse = parse_program(next_token(), Node("program"))
 
-if tok[0] == "eof":
-    print("Parsed program.")
-else:
+if tok[0] != "eof":
     print("Failed to parse input!")
     sys.exit()
 
@@ -655,7 +653,7 @@ parse_tree = deque()
 parse_tree.append(parse)
 #print_parse_tree(parse_tree)
 prog_ast = build_ast(parse) # The program node of the ast.
-print("---------------------------------------------------")
+#print("---------------------------------------------------")
 #prog_ast.print()
 #print("---------------------------------------------------")
 type_checker.type_check(prog_ast)

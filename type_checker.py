@@ -80,9 +80,13 @@ def type_check(prog_ast):
         exit_scope()
 
 # Go through the function and look for defs and uses.
+# When we reference a parameter in assembly we do: local_index*8(%rbp)
+# The first parameter is 16 bytes away in memory so we start local_index on 2.
 def type_check_func(func):
+    local_index = 2
     for param in func.params:
-        add_v_entry(param.name, 0)
+        add_v_entry(param.name, local_index)
+        local_index += 1
     type_check_block(func, func.block)
 
 # We pass func as an argument so that we can propagate it along to the
@@ -95,7 +99,7 @@ def type_check_stmt(func, stmt):
         type_check_block(func, stmt)
         exit_scope()
     elif stmt.node_type == "assignment_node":
-        check_vtable_use(stmt.name)
+        stmt.local_index = check_vtable_use(stmt.name)
         type_check_exp(stmt.exp)
     elif stmt.node_type == "func_call_node":
         type_check_func_call(stmt)
@@ -114,8 +118,8 @@ def type_check_block(func, block):
 def type_check_decl(func, decl):
     decl_name = decl.name
     func.nbr_locals += 1
-    add_v_entry(decl_name, func.nbr_locals)
-    decl.local_index = func.nbr_locals
+    add_v_entry(decl_name, -func.nbr_locals)
+    decl.local_index = -func.nbr_locals
     if decl.exp:
         type_check_exp(decl.exp)
 
