@@ -53,6 +53,7 @@ class Operand:
         self.func_name = None
         self.args = []
         self.nbr_locals = 0 # This is used by code gen to allocated stack space.
+        self.temp_var = None
 
     # Returns a string for pretty printing of the IR instruction.
     def instr_str(self):
@@ -180,6 +181,7 @@ def translate_exp(exp):
     if exp.is_exp:
         t = Operand()
         t.name = new_temp()
+        t.temp_var = t.name
         op1 = translate_exp(exp.op1)
         op2 = translate_exp(exp.op2)
         program.append(IRInstr(exp.operator, op1, op2, t))

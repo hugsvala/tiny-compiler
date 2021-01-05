@@ -617,7 +617,7 @@ def get_term(node):
         exp_node.is_exp = True
         exp_node.op1 = get_factor(term)
         exp_node.add_succ(exp_node.op1)
-        exp_node.operator = node.name
+        exp_node.operator = exp2.name
         exp_node.op2 = get_term(exp2)
         exp_node.add_succ(exp_node.op2)
     else:
@@ -639,8 +639,8 @@ def print_parse_tree(parse_tree):
                 parse_tree.append(n)
         print('\n')
 
-#for r in tokens:
-#    print(r)
+for r in tokens:
+    print(r)
 
 prog = Node("program")
 tok, parse = parse_program(next_token(), Node("program"))
@@ -651,15 +651,15 @@ if tok[0] != "eof":
 
 parse_tree = deque()
 parse_tree.append(parse)
-#print_parse_tree(parse_tree)
+print_parse_tree(parse_tree)
 prog_ast = build_ast(parse) # The program node of the ast.
 #print("---------------------------------------------------")
-#prog_ast.print()
+prog_ast.print()
 #print("---------------------------------------------------")
 type_checker.type_check(prog_ast)
 #print("---------------------------------------------------")
 ir_code = ir_instr.translate_ast(prog_ast)
-#ir_instr.print_program()
+ir_instr.print_program()
 #print("---------------------------------------------------")
 codegen.code_gen(ir_code)
 codegen.print_asm_program()
