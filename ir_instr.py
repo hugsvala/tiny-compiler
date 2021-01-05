@@ -160,7 +160,7 @@ def translate_condition(cond):
             cond_str = "bg"
         elif cond.operator == "greater_than_equal":
             cond_str = "bge"
-        elif cond.operator == "equals":
+        elif cond.operator == "equal":
             cond_str = "beq"
         elif cond.operator == "not_equal":
             cond_str = "bne"

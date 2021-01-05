@@ -14,7 +14,7 @@ valid_tokens = { "int" : "int", "return" : "return", "if" : "if",
                  "{" : "left_bracket", "}" : "right_bracket", ";" :
                  "separator", "," : "comma", "<" : "less_than",
                  ">" : "greater_than", "+" : "add", "-" : "sub",
-                 "*" : "mul", "/" : "div", "=" : "equals", "!" : "not"}
+                 "*" : "mul", "/" : "div", "=" : "equal", "!" : "not"}
 
 # Get the input file from command line argument.
 with open(sys.argv[-1], 'r') as file:

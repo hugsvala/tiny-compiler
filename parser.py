@@ -124,7 +124,7 @@ def parse_stmt(tok):
     if tok[0] == "id":
         id = tok[1]
         tok = next_token()
-        if tok[0] == "equals":
+        if tok[0] == "equal":
             stmt = Node("assignment")
             stmt.name = id
             tok, assign = parse_assignment(tok)
@@ -156,7 +156,7 @@ def parse_decl(tok):
             decl = Node("decl")
             decl.name = tok[1]
             tok = next_token()
-            if tok[0] == "equals":
+            if tok[0] == "equal":
                 tok, opt_assign = parse_opt_assign(tok)
                 decl.add_succ(opt_assign)
                 if tok[0] == "separator":
@@ -172,7 +172,7 @@ def parse_decl(tok):
     return tok, decl
 
 def parse_opt_assign(tok):
-    if tok[0] == "equals":
+    if tok[0] == "equal":
         tok = next_token()
         tok, exp = parse_exp(tok)
     return tok, exp
@@ -192,7 +192,7 @@ def parse_block(tok):
     return tok, block
 
 def parse_assignment(tok):
-    if tok[0] == "equals":
+    if tok[0] == "equal":
         tok = next_token()
         tok, exp = parse_exp(tok)
         if tok[0] == "separator":
@@ -282,7 +282,7 @@ def parse_condition(tok):
 def parse_opt_comparison(tok, condition):
     if tok[0] == "less_than":
         tok = next_token()
-        if tok[0] == "equals":
+        if tok[0] == "equal":
             tok = next_token()
             tok, exp = parse_exp(tok)
             condition.name = "less_than_equal"
@@ -293,7 +293,7 @@ def parse_opt_comparison(tok, condition):
             condition.add_succ(exp)
     elif tok[0] == "greater_than":
         tok = next_token()
-        if tok[0] == "equals":
+        if tok[0] == "equal":
             tok = next_token()
             tok, exp = parse_exp(tok)
             condition.name = "greater_than_equal"
@@ -302,9 +302,9 @@ def parse_opt_comparison(tok, condition):
             tok, exp = parse_exp(tok)
             condition.name = "greater_than"
             condition.add_succ(exp)
-    elif tok[0] == "equals": #Token is called equals, but the operator is equal
+    elif tok[0] == "equal":
         tok = next_token()
-        if tok[0] == "equals":
+        if tok[0] == "equal":
             tok = next_token()
             tok, exp = parse_exp(tok)
             condition.name = "equal"
@@ -313,7 +313,7 @@ def parse_opt_comparison(tok, condition):
             report_error(tok)
     elif tok[0] == "not":
         tok = next_token()
-        if tok[0] == "equals":
+        if tok[0] == "equal":
             tok = next_token()
             tok, exp = parse_exp(tok)
             condition.name = "not_equal"
