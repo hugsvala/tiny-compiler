@@ -9,6 +9,6 @@ int f(int n)
 int main()
 {
   int i = f(9);
-
+  
   return 0;
 }
