@@ -13,7 +13,7 @@ The intermediate language is quite simple, and also quite pointless. Although so
 The code generator was the most fun, and perilous, part of the compiler, though it is not yet complete. While it is able to generate code for most of the tasks I had in mind there is still one thing that it does not achieve, recursion.
 
 
-Known issues:
+# Known issues:
 Currently the lexer treats negative numbers as a token, this leads to bad parsing for input such as: 2-1 since the parser will fail to recognize the expression as 2 - 1. Initially this was handled by the lexer simply treating all numbers as positive, and then the parser would handle the sign. I might go back to this solution if I don't find a better one.
 
 The parse tree seem to be a bit confused by some longer expressions (such as: 1 * 2 - 3 + 4 * 5). While it is possible to get the correct expression by using parentheses, I find it quite annoying. I've checked the production rules against two references which I trust, and I can't find a problem with it. It might be that this is an issue inherent to LL(1), or it might be a bug in the parser. It might also be that I need some more elaborate way of deciding on precedence.
