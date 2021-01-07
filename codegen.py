@@ -175,7 +175,7 @@ def gen_conditional_branch(instr):
         address = str(8 * src2.local_index)
         program.append(ws + "movq " + address + "(%rbp), %r9")
 
-    program.append(ws + "cmpq %r8, %r9")
+    program.append(ws + "cmpq %r9, %r8")
     opcode = instr.op
     label = instr.dest.name
     if opcode == "bl":
