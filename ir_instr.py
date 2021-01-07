@@ -177,6 +177,7 @@ def translate_return_stmt(stmt):
     t = translate_exp(stmt.exp)
     program.append(IRInstr("ret", None, None, t))
 
+# Output operands are temporary variales, codegen push these on the stack.
 def translate_exp(exp):
     if exp.is_exp:
         t = Operand()
