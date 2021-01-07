@@ -2,13 +2,16 @@ int f(int n)
 {
   if (n < 2)
     return n;
-  else
-    return f(n-1) + f(n-2);
+  else {
+    int f2 = f(n - 2);
+    int f1 = f(n - 1);
+    return f2 + f1;
+  }
 }
 
 int main()
 {
   int i = f(9);
-  
+  print(i);
   return 0;
 }
