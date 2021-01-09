@@ -10,6 +10,8 @@ While the compiler only knows about one type, namely integers, the type_checker 
 
 The intermediate language is quite simple, and also quite pointless, although sometimes it proved useful. Mostly for catching bugs in other parts of the compiler.
 
-The code generator was the most fun, and perilous, part of the compiler. The generated code is highly unoptimized. For example, there are some jump instructions that could be avoided by inverting the branch conditions. Arguments are pushed onto the stack rather than using registers.  
+The code generator was the most fun, and perilous, part of the compiler. The generated code is highly unoptimized. For example, there are some jump instructions that could be avoided by inverting the branch conditions. Arguments are pushed onto the stack rather than using registers.
+
+The compiler has a built in function called "print" which takes as argument an integer to print. See output.s for an example.  
 
 Currently the lexer treats negative numbers as a token, this leads to bad parsing for input such as: 2-1 since the parser will fail to recognize the expression as 2 - 1. Initially this was handled by the lexer simply treating all numbers as positive, and then the parser would handle the sign. I might go back to this solution if I don't find a better one.
